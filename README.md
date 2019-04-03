@@ -7,9 +7,9 @@ A simple service using Topshelf that reorganize files in system download folder
 
 
 
-### Custom Folder -> FileFormat mapping can be set using FileMaid.cs GetFolders()
+### Set Folder - FileFormat mapping using FileMaid.cs GetFolders():
 ![Alt Text](https://github.com/FkLaagom/FileMaidService/blob/master/MD/Filemapping.png)
 
 
-### Service Installed
+### Service Installed:
 ![Alt Text](https://github.com/FkLaagom/FileMaidService/blob/master/MD/ServiceRunning.png)
