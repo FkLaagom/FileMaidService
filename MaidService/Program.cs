@@ -1,21 +1,37 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
+using Topshelf;
 
 namespace MaidService
 {
-    class Program
+    static class Program
     {
-        static void Main(string[] args)
+        
+        private static void Main(string[] targetPath)
         {
-            // The code provided will print ‘Hello World’ to the console.
-            // Press Ctrl+F5 (or go to Debug > Start Without Debugging) to run your app.
-            Console.WriteLine("Hello World!");
-            Console.ReadKey();
+            var exitCode = HostFactory.Run(x =>
+            {
+                x.Service<FileMaid>(s =>
+                {
+                    s.ConstructUsing(fileMaid => new FileMaid());
+                    s.WhenStarted(fileMaid => fileMaid.Start());
+                    s.WhenStopped(fileMaid => fileMaid.Stop());
+                });
 
-            // Go to http://aka.ms/dotnet-get-started-console to continue learning how to build a console app! 
+                x.RunAsLocalService();
+                x.SetServiceName("FileMaidService");
+                x.SetDisplayName("File Maid Service");
+                x.SetDescription("A service for reorganizing download folder.");
+            });
+
+            int exitCodeValue = (int)Convert.ChangeType(exitCode, exitCode.GetTypeCode());
+            Environment.ExitCode = exitCodeValue;
         }
+
     }
 }
