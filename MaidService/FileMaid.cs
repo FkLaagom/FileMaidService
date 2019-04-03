@@ -46,21 +46,24 @@ namespace MaidService
 
         private void TimerElapsed(object sender, ElapsedEventArgs e)
         {
-            foreach (var folder in _folders)
+            if (Directory.GetFiles(_targetPath).Count() > 0)
             {
-                foreach (var format in folder.FileFormats)
+                foreach (var folder in _folders)
                 {
-                    foreach (var file in Directory.GetFiles(_targetPath, $"*{format}"))
+                    foreach (var format in folder.FileFormats)
                     {
-                        var mFile = new FileInfo(file);
-                        try
+                        foreach (var file in Directory.GetFiles(_targetPath, $"*{format}"))
                         {
-                            mFile.MoveTo($@"{_targetPath}\{folder.Name}\{mFile.Name}");
-                        }
-                        catch (Exception ex)
-                        {
-                            // If File Being Used By Other Process Try Again Later
-                            Debug.WriteLine(ex.Message);
+                            var mFile = new FileInfo(file);
+                            try
+                            {
+                                mFile.MoveTo($@"{_targetPath}\{folder.Name}\{mFile.Name}");
+                            }
+                            catch
+                            {
+                                // If File Being Used By Other Process Try Again Later
+                                // Debug.WriteLine(ex.Message);
+                            }
                         }
                     }
                 }
