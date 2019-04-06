@@ -22,7 +22,7 @@ namespace MaidService
             _folders = GetFolders();
             SetFolders();
 
-            _timer = new Timer(10000) { AutoReset = true };
+            _timer = new Timer(1800000) { AutoReset = true };
             _timer.Elapsed += TimerElapsed;
         }
 
